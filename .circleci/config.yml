@@ -1,0 +1,56 @@
+# JavaScript Node CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/batch-12-WeConnect
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run:
+          name: Setup Dependencies
+          command: "yarn install"
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: ESLint Tests
+          command: yarn eslint .
+      - run:
+          name: Client and Server Testing
+          command: yarn test
+
+  deploy:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: Setup heroku login
+          command: chmod +x ./setup_heroku.sh && bash ./setup_heroku.sh
+      - run:
+          name: Add heroku as remote
+          command: heroku git:remote -a pesto-weconnect
+      - run:
+          name: Deploy to Production
+          command: git push heroku master --force
+      - run:
+          name: Deploy to Frontend via build-hooks
+          command: curl -X POST -d {} https://api.netlify.com/build_hooks/5e4d116fff7bac9526d006b2
+
+workflows:
+  version: 2
+  test-and-deploy-client:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
