@@ -1,0 +1,18 @@
+{
+    "name": "weconnect",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "client": "yarn workspace weconnect-client start",
+        "server": "yarn workspace weconnect-server start",
+        "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\""
+    },
+    "workspaces": [
+        "client",
+        "server"
+    ],
+    "dependencies": {
+        "concurrently": "^5.1.0"
+    },
+    "devDependencies": {}
+}
