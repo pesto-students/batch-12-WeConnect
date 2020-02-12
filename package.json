@@ -3,11 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "client": "yarn workspace client start",
-        "server": "yarn workspace server start",
+        "client": "yarn workspace weconnect-client start",
+        "server": "yarn workspace weconnect-server start",
         "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
-        "client:lint": "yarn workspace client lint",
-        "server:lint": "yarn workspace server lint"
+        "test": "yarn test-server && yarn test-client",
+        "test-server": "yarn workspace weconnect-server test",
+        "test-client": "yarn workspace weconnect-client test"
     },
     "workspaces": [
         "client",
