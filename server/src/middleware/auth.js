@@ -3,17 +3,19 @@ import User from '../models/user';
 import constants from '../constants/token';
 
 const auth = async (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+  const token = req.cookies.token || '';
   try {
-    const data = jwt.verify(token, constants.JWT_KEY);
-    // eslint-disable-next-line
-    const user = await User.findOne({ _id: data._id, 'tokens.token': token });
-    if (!user) {
-      throw new Error();
+    if (!token) {
+      res.status(401).send({ error: 'Not authorized to access this resource' });
+    } else {
+      const data = await jwt.verify(token, constants.JWT_KEY);
+      const user = await User.findOne({ _id: data._id });
+      if (!user) {
+        throw new Error();
+      }
+      req.user = user;
+      next();
     }
-    req.user = user;
-    req.token = token;
-    next();
   } catch (error) {
     res.status(401).send({ error: 'Not authorized to access this resource' });
   }

@@ -2,6 +2,11 @@ import request from 'supertest';
 import db from '../db';
 import app from '../app';
 import User from '../models/user';
+import jwt from 'jsonwebtoken';
+import constants from '../constants/token';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 describe("Testing the user api's", () => {
   const user = {
@@ -18,6 +23,7 @@ describe("Testing the user api's", () => {
 
   beforeAll(() => db.dbConnect());
   describe('Testing the user registration api', () => {
+    beforeAll(() => User.deleteOne({ email: 'test@test.com' }));
     test('Test with all correct inputs', async () => {
       const res = await request(app)
         .post('/api/users/register')
@@ -27,12 +33,10 @@ describe("Testing the user api's", () => {
       expect(res.body.user._id).toBeTruthy();
       expect(res.body.user.firstName).toBeTruthy();
       expect(res.body.user.lastName).toBeTruthy();
-      expect(res.body.user.lastName).toBeTruthy();
       expect(res.body.user.email).toBeTruthy();
       expect(res.body.user.password).toBeTruthy();
       expect(res.body.user.phone).toBeTruthy();
       expect(res.body.user.role).toBeTruthy();
-      expect(res.body.token).toBeTruthy();
     });
 
     test('Test with invalid email input', async () => {
@@ -78,7 +82,6 @@ describe("Testing the user api's", () => {
           email: 'test@test.com',
           password: 'test@1234',
         });
-      token = res.body.token;
       expect(res.statusCode).toEqual(200);
       expect(res.body.user._id).toBeTruthy();
       expect(res.body.user.firstName).toBeTruthy();
@@ -88,15 +91,18 @@ describe("Testing the user api's", () => {
       expect(res.body.user.password).toBeTruthy();
       expect(res.body.user.phone).toBeTruthy();
       expect(res.body.user.role).toBeTruthy();
-      expect(res.body.token).toBeTruthy();
     });
   });
 
   describe('Testing the user profile api', () => {
+    beforeAll(() => {
+      token = jwt.sign({ _id: userId }, constants.JWT_KEY);
+    });
+
     test('Test to get user details with correct token', async () => {
       const res = await request(app)
         .get('/api/users/me')
-        .set('Authorization', `Bearer ${token}`);
+        .set('Cookie', [`token=${token}`]);
       expect(res.statusCode).toEqual(200);
       expect(res.body.user._id).toBeTruthy();
       expect(res.body.user.firstName).toBeTruthy();
@@ -111,7 +117,7 @@ describe("Testing the user api's", () => {
     test('Test to get user details with invalid token', async () => {
       const res = await request(app)
         .get('/api/users/me')
-        .set('Authorization', `Bearer ${''}`);
+        .set('Cookie', [`token=${''}`]);
       expect(res.statusCode).toEqual(401);
     });
   });
@@ -120,60 +126,21 @@ describe("Testing the user api's", () => {
     test('Test to log the user out with invalid token', async () => {
       const res = await request(app)
         .post('/api/users/me/logout')
-        .set('Authorization', `Bearer ${''}`);
+        .set('Cookie', [`token=${''}`]);
       expect(res.statusCode).toEqual(401);
     });
 
     test('Test to log the user out with valid token', async () => {
       const res = await request(app)
         .post('/api/users/me/logout')
-        .set('Authorization', `Bearer ${token}`);
+        .set('Cookie', [`token=${token}`]);
       expect(res.statusCode).toEqual(200);
     });
   });
 
-  describe('Test the logoutAll api', () => {
-    beforeAll(async () => {
-      const response = await request(app)
-        .post('/api/users/login')
-        .send({
-          email: 'test@test.com',
-          password: 'test@1234',
-        });
-      token = response.body.token;
-      await request(app)
-        .post('/api/users/login')
-        .send({
-          email: 'test@test.com',
-          password: 'test@1234',
-        });
-    });
-
-    test('Test to log the user out with invalid token', async () => {
-      const res = await request(app)
-        .post('/api/users/me/logoutall')
-        .set('Authorization', `Bearer ${''}`);
-      expect(res.statusCode).toEqual(401);
-    });
-
-    test('Test to log the user out with valid token', async () => {
-      const res = await request(app)
-        .post('/api/users/me/logoutall')
-        .set('Authorization', `Bearer ${token}`);
-      expect(res.statusCode).toEqual(200);
-    });
-
-    test('Test if all the tokens were deleted', async () => {
-      const response = await request(app)
-        .post('/api/users/login')
-        .send({
-          email: 'test@test.com',
-          password: 'test@1234',
-        });
-      expect(response.statusCode).toEqual(200);
-      expect(response.body.user.tokens.length).toEqual(1);
+  afterAll(() => {
+    return User.deleteOne({ _id: userId }, () => {
+      return db.dbDisconnect();
     });
   });
-
-  afterAll(() => User.deleteOne({ _id: userId }, () => db.dbDisconnect()));
 });

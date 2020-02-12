@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
@@ -44,19 +45,9 @@ const userSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
 });
 
-const User = mongoose.model('User', userSchema);
-
-userSchema.pre('save', async (next) => {
+userSchema.pre('save', async function(next) {
   // Hash the password before saving the user model
   const user = this;
   if (user.isModified('password')) {
@@ -65,14 +56,16 @@ userSchema.pre('save', async (next) => {
   next();
 });
 
-userSchema.methods.generateAuthToken = async () => {
+userSchema.methods.generateAuthToken = async function(res) {
   // Generate an auth token for the user
   const user = this;
   // eslint-disable-next-line
   const token = jwt.sign({ _id: user._id }, constants.JWT_KEY);
-  user.tokens = user.tokens.concat({ token });
-  await user.save();
-  return token;
+  return res.cookie('token', token, {
+    expires: new Date(Date.now() + constants.TIMEOUT),
+    secure: false, // set to true if your using https
+    httpOnly: true,
+  });
 };
 
 userSchema.statics.findByCredentials = async (email, password) => {
@@ -88,4 +81,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
-module.exports = User;
+// eslint-disable-next-line
+const User = mongoose.model('User', userSchema);
+
+export default User;
