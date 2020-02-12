@@ -1,0 +1,58 @@
+.searchContainer {
+  background-image: url(/images/bg-min.jpg);
+  min-height: 80vh;
+  background-size: cover;
+  position: relative;
+}
+.searchContainer:before {
+  content: "";
+  position: absolute;
+  display: block;
+  background: rgba(0, 0, 0, 0.3);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.searchContent {
+  color: white;
+  min-height: 80vh;
+  position: relative;
+  z-index: 2;
+}
+
+.searchContent > h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.searchContent > p {
+  font-size: 1.5em;
+  margin-top: 0;
+}
+
+.searchWrapper {
+  max-width: 70vw;
+  width: 100%;
+  position: relative;
+}
+.searchBtn {
+  position: absolute;
+  top: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .searchContainer {
+    padding: 8px;
+  }
+  .searchContent > h1 {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  .searchContent > p {
+    font-size: 1em;
+  }
+  .searchWrapper {
+    max-width: 100vw;
+  }
+}
