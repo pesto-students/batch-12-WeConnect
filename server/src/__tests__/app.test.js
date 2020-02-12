@@ -1,6 +1,9 @@
 import request from 'supertest';
 import db from '../db';
 import app from '../app';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 describe('Testing the root path', () => {
   beforeAll(() => db.dbConnect());

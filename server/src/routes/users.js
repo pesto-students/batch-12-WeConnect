@@ -17,7 +17,4 @@ router.get(routes.PROFILE, auth, userController.profile);
 // logout user
 router.post(routes.LOGOUT, auth, userController.logout);
 
-// logout user from all device
-router.post(routes.LOGOUTALL, auth, userController.logoutAll);
-
 export default router;

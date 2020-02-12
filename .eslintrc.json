@@ -24,6 +24,8 @@
   "plugins": ["react", "prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "no-use-before-define": ["error", { "variables": false }],
+    "no-underscore-dangle": "off"
   }
 }
