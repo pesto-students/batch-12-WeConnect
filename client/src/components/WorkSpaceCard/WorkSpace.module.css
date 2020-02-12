@@ -1,0 +1,26 @@
+.workspace {
+    background: #f7fdff;
+    box-shadow:  14px 14px 41px #e8eef0, 
+             -14px -14px 41px #ffffff;
+}
+.workspaceContent {
+    padding: 12px;
+}
+.workspaceTitle {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+.workspaceDetail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.workspaceLocation > span, .workspaceDetail > span > span {
+    vertical-align: super;
+    display: inline-block;
+    margin-left: 4px;
+    position: relative;
+    top: 2px;
+}
+

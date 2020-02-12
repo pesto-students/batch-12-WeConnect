@@ -1,8 +1,10 @@
 .App {
-  text-align: center;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
-.appHeader {
+.AppHeader {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -11,4 +13,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.main {
+  padding: 48px 0;
 }
