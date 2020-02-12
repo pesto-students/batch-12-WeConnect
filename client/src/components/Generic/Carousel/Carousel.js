@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-const myCarousel = (props) => {
-    return (
-        <Carousel {...props} />
-    )
-}
+const myCarousel = props => {
+  return <Carousel {...props} />;
+};
 
 export default myCarousel;
-
