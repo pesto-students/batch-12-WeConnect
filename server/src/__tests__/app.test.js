@@ -1,11 +1,16 @@
-import request from 'supertest';
-import app from '../app';
+import request from "supertest";
+import db from "../db";
+import app from "../app";
 
-describe('Testing the root path', () => {
-    test('It should response the GET method', (done) => {
-        request(app).get('/').then((response) => {
-            expect(response.statusCode).toBe(200);
-            done();
-        });
-    });
+describe("Testing the root path", () => {
+  beforeAll(() => {
+    return db.dbConnect();
+  });
+  test("It should response the GET method for root path", async () => {
+    const res = await request(app).get("/api/");
+    expect(res.statusCode).toEqual(200);
+  });
+  afterAll(() => {
+    return db.dbDisconnect();
+  });
 });
