@@ -3,14 +3,31 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+
+require('dotenv').config();
+
+const mongoDBURI = process.env.ATLAS_URI;
+
+mongoose
+	.connect(mongoDBURI, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true
+	})
+	.catch((error) => {
+		console.log(`Unable to connect // ${error}`);
+	});
+const connection = mongoose.connection;
+connection.once('open', () => {
+	console.log('Connected to MongoDB server !');
+});
+
+mongoose.set('useFindAndModify', false);
 
 var indexRouter = require('./routes/index');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
