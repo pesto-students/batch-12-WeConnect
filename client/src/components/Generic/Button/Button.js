@@ -1,8 +1,13 @@
-import React from 'react';
-import {Button} from '@material-ui/core';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "@material-ui/core";
 
-function myButton(props) {
-    return <Button {...props}> {props.children}</Button>
-}
+const myButton = props => {
+  return <Button {...props}> {props.children}</Button>;
+};
+
+myButton.propTypes = {
+  children: PropTypes.element.isRequired
+};
 
 export default myButton;

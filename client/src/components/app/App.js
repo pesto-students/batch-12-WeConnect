@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import style from './App.module.css';
+import style from "./App.module.css";
 
-import { Grid, Container, Carousel, Button } from '../Generic';
-import {WorkSpaceCard, WorkSpaceContent} from '../WorkSpaceCard';
-import Amenities from '../Amenities/Amenities';
+import { Grid, Container, Carousel, Button } from "../Generic";
+import { WorkSpaceCard, WorkSpaceContent } from "../WorkSpaceCard";
+import Amenities from "../Amenities/Amenities";
 
-function App() {
+const App = () => {
   return (
     <div className={style.App}>
       <header className={style.AppHeader}>
@@ -68,6 +68,6 @@ function App() {
       </main>
     </div>
   );
-}
+};
 
 export default App;
