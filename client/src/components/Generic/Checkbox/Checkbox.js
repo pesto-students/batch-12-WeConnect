@@ -1,10 +1,8 @@
-import React from 'react';
-import { Checkbox } from '@material-ui/core';
+import React from "react";
+import { Checkbox } from "@material-ui/core";
 
-function myCheckBox(props) {
-    return (
-        <Checkbox {...props} />
-    )
-}
+const myCheckBox = props => {
+  return <Checkbox {...props} />;
+};
 
 export default myCheckBox;

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { Modal } from "@material-ui/core";
 
-function myModal(props) {
-    return <Modal {...props} />
-}
+const myModal = props => {
+  return <Modal {...props} />;
+};
 
 export default myModal;
