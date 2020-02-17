@@ -1,4 +1,4 @@
-
+![weconnect-logo](https://user-images.githubusercontent.com/4025958/74657206-bffa3e00-51b5-11ea-9cd1-0c4c4633fb2a.png)
 ## batch-12-WeConnect
 	
 ### Project Specs
