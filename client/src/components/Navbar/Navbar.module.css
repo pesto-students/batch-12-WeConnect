@@ -1,0 +1,49 @@
+.appBar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: calc(0.5vmin) 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-size: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.appBar > div,
+.appBar > a {
+  flex: 1;
+  display: flex;
+}
+
+.title {
+  margin-right: calc(16px + 1vmin);
+}
+
+.childrenComponents {
+  display: none;
+}
+
+.profileMenu {
+  margin-left: auto;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.menuButton {
+  padding: 0px;
+}
+
+@media (min-width: 600px) {
+  .childrenComponents {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+}
