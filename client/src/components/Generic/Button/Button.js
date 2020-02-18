@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from '@material-ui/core';
 
-const myButton = props => {
+const myButton = (props) => {
   return (
     <Button {...props} onClick={props.onClick}>
       {props.children}
@@ -11,7 +11,7 @@ const myButton = props => {
 };
 
 myButton.propTypes = {
-  children: PropTypes.string
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 export default myButton;
