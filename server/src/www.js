@@ -5,23 +5,36 @@
  */
 import debugLib from 'debug';
 import http from 'http';
-import db from './db';
+
 import app from './app';
+import db from './db';
 import constants from './constants/port';
 
 const debug = debugLib('we-connect:server');
+
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
+
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+};
 
 /**
  * Get port from environment and store in Express.
  */
 
-// eslint-disable-next-line no-use-before-define
 const port = normalizePort(constants.PORT || '4000');
 app.set('port', port);
-
-/**
- * Create HTTP server.
- */
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -42,28 +55,11 @@ db.dbConnect()
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
-  const portNumber = parseInt(val, 10);
-
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(portNumber)) {
-    // named pipe
-    return val;
-  }
-
-  if (portNumber >= 0) {
-    // port number
-    return portNumber;
-  }
-
-  return false;
-}
-
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server 'error' event.
  */
 
-function onError(error) {
+const onError = (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -83,17 +79,17 @@ function onError(error) {
     default:
       throw error;
   }
-}
+};
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP server 'listening' event.
  */
 
-function onListening() {
+const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
-}
+};
 
 server.on('error', onError);
 server.on('listening', onListening);
