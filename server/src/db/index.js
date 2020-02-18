@@ -22,7 +22,7 @@ const dbConnect = () =>
 
     mongoose.connection.on('error', (err) => {
       debug(`Mongoose default connection error: ${err}`);
-      reject(new Error('Error in connection'));
+      reject(new Error(`Error in connection ${err}`));
     });
 
     // When the connection is disconnected
