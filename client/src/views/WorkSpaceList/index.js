@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 
-class WorkSpaceList extends Component {
-  render() {
-    return (
-      <div>
-        <p>Filter</p>
-        <p>List of workspaces</p>
-      </div>
-    );
-  }
+function WorkSpaceList(props) {
+  return (
+    <div>
+      <p>Filter</p>
+      <p>List of workspaces</p>
+    </div>
+  );
 }
 
 export default WorkSpaceList;
