@@ -9,4 +9,9 @@ export default {
   WORKSPACE: '/workspace',
   LOCATION: '/location',
   ADD: '/add',
+  BOOKINGS: '/bookings',
+  CREATE: '/create',
+  CANCEL: '/cancel',
+  MYBOOKINGS: '/mybookings',
+  BOOKEDSLOTS: '/bookedslots',
 };

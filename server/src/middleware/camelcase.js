@@ -1,4 +1,4 @@
-const camelcaseKeys = require('camelcase-keys');
+import camelcaseKeys from 'camelcase-keys';
 
 const camelcase = (req, res, next) => {
   req.body = camelcaseKeys(req.body, { deep: true });

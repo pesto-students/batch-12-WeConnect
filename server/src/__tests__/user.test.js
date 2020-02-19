@@ -4,9 +4,6 @@ import app from '../app';
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import constants from '../constants/token';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 describe("Testing the user api's", () => {
   const user = {
@@ -69,7 +66,7 @@ describe("Testing the user api's", () => {
       const res = await request(app)
         .post('/api/users/login')
         .send({
-          email: 'test@.com',
+          email: 'test@test.com',
           password: '',
         });
       expect(res.statusCode).toEqual(400);
