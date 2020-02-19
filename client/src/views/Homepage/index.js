@@ -1,98 +1,87 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
 
-import style from "./Homepage.module.css";
+import style from './Homepage.module.css';
 
-import { Grid, Button, TextField } from "../../components/Generic";
-import { getWorkSpaceData } from "../../apis/getWorkSpace";
+import { Grid, Button, TextField } from '../../components/Generic';
+import { getWorkSpaceData } from '../../apis/getWorkSpace';
 
-class Homepage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      helperText: "",
-      error: false,
-      searchTerm: ""
-    };
-  }
+const Homepage = (props) => {
+  const [helperText, setHelperText] = useState('');
+  const [error, setError] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  validateSearch = event => {
+  const validateSearch = (event) => {
     let { value } = event.target;
     if (event.target.value.length < 3) {
-      this.setState(() => ({
-        helperText: "Enter atleast 3 char",
-        error: true
-      }));
+      setHelperText('Enter atleast 3 char');
+      setError(true);
     } else {
-      this.setState(() => ({
-        helperText: "",
-        error: false,
-        searchTerm: value
-      }));
+      setHelperText('');
+      setError(false);
+      setSearchTerm(value);
     }
   };
 
-  getWorkSpace = event => {
-    if (this.state.searchTerm.length > 2) {
-      event.target.setAttribute("disabled", true);
-      getWorkSpaceData().then(data => {
-        if (data.status === "success") {
-          this.props.history.push({
-            pathname: "/workspace",
-            state: {
-              workspaces: data.workspaces
-            }
-          });
-        }
-      });
+  const getWorkSpace = async (event) => {
+    if (searchTerm.length > 2) {
+      event.target.setAttribute('disabled', true);
+      const data = await getWorkSpaceData();
+      if (data.status === 'success') {
+        props.history.push({
+          pathname: '/workspace',
+          state: {
+            workspaces: data.workspaces,
+          },
+        });
+      }
     }
   };
 
-  render() {
-    return (
-      <section className={style.searchContainer}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          className={style.searchContent}
-        >
-          <h1>Beat The Hassle Of Booking A Meeting Room</h1>
-          <p>Book Meeting Room In Top Notch Co-Working Space</p>
-          <div className={style.searchWrapper}>
-            <TextField
-              id="searchInput"
-              style={{ backgroundColor: "#fff" }}
-              error={this.state.error}
-              helperText={this.state.helperText}
-              placeholder="Enter Your City"
-              fullWidth
-              variant="outlined"
-              type="text"
-              autoFocus={true}
-              className="input"
-              onChange={this.validateSearch}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                borderRadius: 0,
-                position: "absolute",
-                right: "-1px",
-                padding: "15px 42px"
-              }}
-              size="large"
-              onClick={this.getWorkSpace}
-              type="submit"
-            >
-              Search
-            </Button>
-          </div>
-        </Grid>
-      </section>
-    );
-  }
-}
+  return (
+    <section className={style.searchContainer}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        className={style.searchContent}
+      >
+        <h1>Beat The Hassle Of Booking A Meeting Room</h1>
+        <p>Book Meeting Room In Top Notch Co-Working Space</p>
+        <div className={style.searchWrapper}>
+          <TextField
+            id="searchInput"
+            style={{ backgroundColor: '#fff' }}
+            error={error}
+            helperText={helperText}
+            placeholder="Enter Your City"
+            fullWidth
+            variant="outlined"
+            type="text"
+            autoFocus={true}
+            className="input"
+            onChange={validateSearch}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              borderRadius: 0,
+              position: 'absolute',
+              right: '-1px',
+              padding: '15px 42px',
+            }}
+            size="large"
+            onClick={getWorkSpace}
+            type="submit"
+            id="homeButton"
+          >
+            Search
+          </Button>
+        </div>
+      </Grid>
+    </section>
+  );
+};
 
 export default Homepage;
