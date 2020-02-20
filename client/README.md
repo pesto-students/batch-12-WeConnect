@@ -1,1 +1,1 @@
-### WeConnect Client ###
+### WeConnect Client

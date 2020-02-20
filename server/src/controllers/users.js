@@ -1,4 +1,4 @@
-import User from "../models/user";
+import User from '../models/user';
 
 exports.register = async (req, res) => {
   // Create a new user
@@ -9,13 +9,14 @@ exports.register = async (req, res) => {
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
   } catch (error) {
+    // eslint-disable-next-line
     console.log(error);
     res.status(400).send(error);
   }
 };
 
 exports.login = async (req, res) => {
-  //Login a registered user
+  // Login a registered user
   try {
     const { email, password } = req.body;
     const user = await User.findByCredentials(email, password);
@@ -23,13 +24,15 @@ exports.login = async (req, res) => {
     if (!user) {
       return res
         .status(401)
-        .send({ error: "Login failed! Check authentication credentials" });
+        .send({ error: 'Login failed! Check authentication credentials' });
     }
 
     const token = await user.generateAuthToken();
     res.send({ user, token });
+    return undefined;
   } catch (error) {
     res.status(400).send(error);
+    return undefined;
   }
 };
 
@@ -41,13 +44,15 @@ exports.profile = async (req, res) => {
 exports.logout = async (req, res) => {
   // Log user out of the application
   try {
-    req.user.tokens = req.user.tokens.filter(token => {
-      return token.token != req.token;
-    });
+    req.user.tokens = req.user.tokens.filter(
+      (token) => token.token !== req.token,
+    );
     await req.user.save();
     res.send();
+    return undefined;
   } catch (error) {
     res.status(500).send(error);
+    return undefined;
   }
 };
 

@@ -3,21 +3,21 @@
 /**
  * Module dependencies.
  */
-import db from "./db";
-import app from "./app";
-import debugLib from "debug";
-import http from "http";
-import constants from "./constants/port";
+import debugLib from 'debug';
+import http from 'http';
+import db from './db';
+import app from './app';
+import constants from './constants/port';
 
-const debug = debugLib("we-connect:server");
+const debug = debugLib('we-connect:server');
 
 /**
  * Get port from environment and store in Express.
  */
 
 // eslint-disable-next-line no-use-before-define
-const port = normalizePort(constants.PORT || "4000");
-app.set("port", port);
+const port = normalizePort(constants.PORT || '4000');
+app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -36,26 +36,24 @@ db.dbConnect()
       debug(err);
     }
   })
-  .catch(err => debug(err));
+  .catch((err) => debug(err));
 
-server.on("error", onError);
-server.on("listening", onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  const portNumber = parseInt(val, 10);
 
   // eslint-disable-next-line no-restricted-globals
-  if (isNaN(port)) {
+  if (isNaN(portNumber)) {
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (portNumber >= 0) {
     // port number
-    return port;
+    return portNumber;
   }
 
   return false;
@@ -66,19 +64,19 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case "EACCES":
+    case 'EACCES':
       debug(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
-    case "EADDRINUSE":
+    case 'EADDRINUSE':
       debug(`${bind} is already in use`);
       process.exit(1);
       break;
@@ -93,6 +91,9 @@ function onError(error) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
+
+server.on('error', onError);
+server.on('listening', onListening);
