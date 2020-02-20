@@ -1,8 +1,8 @@
 module.exports = {
-  testEnvironment: "node",
+  testEnvironment: 'node',
   verbose: true,
-  testMatch: ["**/__tests__/**/*.test.js"],
+  testMatch: ['**/__tests__/**/*.test.js'],
   transform: {
-    "^.+\\.js$": "babel-jest"
-  }
+    '^.+\\.js$': 'babel-jest',
+  },
 };
