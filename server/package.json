@@ -12,7 +12,9 @@
     "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "camelcase-keys": "^6.1.2",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
@@ -22,10 +24,9 @@
     "log4js": "^6.1.2",
     "mongoose": "^5.8.12",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
     "path": "^0.12.7",
     "supertest": "^4.0.2",
-    "camelcase-keys": "^6.1.2",
-    "multer": "^1.4.2",
     "validator": "^12.2.0"
   },
   "devDependencies": {

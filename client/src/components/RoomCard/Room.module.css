@@ -1,0 +1,24 @@
+.room {
+  background: #f7fdff;
+  box-shadow: 14px 14px 41px #e8eef0, -14px -14px 41px #ffffff;
+}
+.roomContent {
+  padding: 12px;
+}
+
+.roomTitle {
+  font-size: 1.2em;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.roomCapacity {
+  margin-bottom: 12px;
+}
+
+.roomCapacity > span > span {
+  vertical-align: super;
+  display: inline-block;
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
+}

@@ -22,7 +22,7 @@ exports.getWorkspaces = async (request, response, next) => {
     );
     response.status(200).json({
       status: 'success',
-      locations: workspacesToRender,
+      workspaces: workspacesToRender,
     });
   } catch (error) {
     logger.error(error);

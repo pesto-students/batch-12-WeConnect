@@ -6,11 +6,12 @@ import BusinessIcon from '@material-ui/icons/Business';
 
 import style from './WorkSpace.module.css';
 
-export const WorkSpaceCard = props => {
+export const WorkSpaceCard = (props) => {
   const [
     Carousel,
     WorkSpaceContent,
     Amenities,
+    DaysRow,
     Explore,
     ...restProps
   ] = props.children;
@@ -20,6 +21,7 @@ export const WorkSpaceCard = props => {
       <div className={style.workspaceContent}>
         {WorkSpaceContent}
         {Amenities}
+        {DaysRow}
         {Explore}
         {restProps}
       </div>
@@ -27,7 +29,7 @@ export const WorkSpaceCard = props => {
   );
 };
 
-export const WorkSpaceContent = props => {
+export const WorkSpaceContent = (props) => {
   return (
     <>
       <p className={style.workspaceTitle}>{props.name}</p>
