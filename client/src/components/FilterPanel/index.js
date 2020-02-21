@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Filter = (props) => {
-  console.log(props);
   const classes = useStyles();
   return (
     <WeGrid className={classes.filterBox} container spacing={2}>
@@ -27,7 +26,6 @@ const Filter = (props) => {
           <OutlinedInput
             id="outlined-search"
             value={props.valueOfSearch}
-            onChange={console.log('change')}
             startAdornment={
               <InputAdornment position="start">
                 <SearchIcon />
