@@ -49,4 +49,4 @@ const workspaceSchema = mongoose.Schema({
   },
 });
 
-module.exports = workspaceSchema;
+export default workspaceSchema;
