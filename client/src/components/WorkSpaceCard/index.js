@@ -32,7 +32,9 @@ export const WorkSpaceCard = (props) => {
 export const WorkSpaceContent = (props) => {
   return (
     <>
-      <p className={style.workspaceTitle}>{props.name}</p>
+      <p className={style.workspaceTitle}>
+        {props.name}, {props.locationName}
+      </p>
       <p className={style.workspaceLocation}>
         <LocationOnIcon fontSize="small" color="primary" />{' '}
         <span>{props.location}</span>

@@ -1,8 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
-// const apiUrl = process.env.PUBLIC_URL;
-const apiUrl = "http://localhost:4000";
-
-export { baseUrl, apiUrl };
+export default serverUrl;

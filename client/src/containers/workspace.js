@@ -13,10 +13,11 @@ const Workspace = (props) => {
       ? workspace.workspaceAmenities
       : ['Nothing to display'];
   const listOfAmenities = amenities.map((amenity) => {
-    return <p>{amenity}</p>;
+    return <p key={workspace._id + amenity}>{amenity}</p>;
   });
 
   const showRooms = (e) => {
+    console.log(props);
     props.history.push(
       `/room/${props.workspace.locationId}/${props.workspace._id}/rooms`,
       { operationHours: workspace.operationHours },
@@ -36,6 +37,7 @@ const Workspace = (props) => {
       </Carousel>
       <WorkSpaceContent
         name={workspace.name || 'Unavailable'}
+        locationName={workspace.locationName}
         location={workspace.address.fullAddress || 'Address not available'}
         maxSeat={workspace.maxSeat || '0'}
         rooms={workspace.rooms || '0'}
