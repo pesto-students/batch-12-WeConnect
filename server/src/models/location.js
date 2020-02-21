@@ -22,17 +22,36 @@ locationSchema.statics.fetchWorkspaces = async (
   page,
   workspacePerPage,
 ) => {
-  const workspaces = await Location.find({
+  const locations = await Location.find({
     location: { $regex: `.*${location.toLowerCase()}.*` },
   });
-  if (workspaces == null) {
+  if (locations == null) {
     return [];
   }
+
+  logger.debug(`Search query: ${location}, Got ${locations.length} locations`);
+
+  const fetchedWorkspaces = locations.reduce((response, eachLocation) => {
+    const locationName = eachLocation.location;
+    const locationId = eachLocation._id;
+    const { workspaces = [] } = eachLocation;
+    logger.debug(`Workspace of: ${locationName}, Count : ${workspaces.length}`);
+    const updatedWorkspaces = workspaces.map((workspace) => {
+      const updatedWorkspace = workspace.toObject();
+      updatedWorkspace.locationName = locationName;
+      updatedWorkspace.locationId = locationId;
+      logger.debug(`${locationName} || ${locationId}`);
+
+      return updatedWorkspace;
+    });
+    return [...response, ...updatedWorkspaces];
+  }, []);
+
   const startIndex = (parseInt(page, 10) - 1) * parseInt(workspacePerPage, 10);
   const endIndex =
     (parseInt(page, 10) - 1) * parseInt(workspacePerPage, 10) +
     parseInt(workspacePerPage, 10);
-  const workspacesToRender = workspaces.slice(startIndex, endIndex);
+  const workspacesToRender = fetchedWorkspaces.slice(startIndex, endIndex);
   return workspacesToRender;
 };
 

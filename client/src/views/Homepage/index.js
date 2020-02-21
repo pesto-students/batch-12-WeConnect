@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import style from './Homepage.module.css';
 
 import { Grid, Button, TextField } from '../../components/Generic';
-import { getWorkSpaceData } from '../../apis/getWorkSpace';
 
 const Homepage = (props) => {
   const [helperText, setHelperText] = useState('');
@@ -13,7 +12,7 @@ const Homepage = (props) => {
   const validateSearch = (event) => {
     let { value } = event.target;
     if (event.target.value.length < 3) {
-      setHelperText('Enter atleast 3 char');
+      setHelperText('Enter Atleast 3 char');
       setError(true);
     } else {
       setHelperText('');
@@ -22,18 +21,10 @@ const Homepage = (props) => {
     }
   };
 
-  const getWorkSpace = async (event) => {
+  const redirectToWorkspace = async (event) => {
     if (searchTerm.length > 2) {
-      event.target.setAttribute('disabled', true);
-      const data = await getWorkSpaceData();
-      if (data.status === 'success') {
-        props.history.push({
-          pathname: '/workspace',
-          state: {
-            workspaces: data.workspaces,
-          },
-        });
-      }
+      setSearchTerm({ disableButton: true, searchButtonText: 'Loading...' });
+      props.history.push(`/workspace?q=${searchTerm}`);
     }
   };
 
@@ -72,7 +63,7 @@ const Homepage = (props) => {
               padding: '15px 42px',
             }}
             size="large"
-            onClick={getWorkSpace}
+            onClick={redirectToWorkspace}
             type="submit"
             id="homeButton"
           >

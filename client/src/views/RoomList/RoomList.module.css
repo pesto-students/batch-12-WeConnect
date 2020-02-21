@@ -1,0 +1,12 @@
+.floorName {
+  margin: 0;
+  color: #009688;
+  font-weight: 500;
+  font-size: 1.5em;
+}
+
+.floorSection {
+  margin-bottom: 18px;
+  background: #f9f9f9;
+  padding: 12px;
+}
