@@ -8,7 +8,6 @@ import { getWorkSpaceData } from '../../apis/getWorkSpace';
 import LinearProgress from '../../components/Generic/ProgressBar/LinearProgress';
 
 const WorkSpaceList = (props) => {
-  console.log('locationaoi', props);
   const { search } = props.location;
   const searchFromQuery = keyValueGetter(search, 'q');
   const [location, setLocation] = React.useState({ workspaces: [] });
@@ -16,14 +15,13 @@ const WorkSpaceList = (props) => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
-    getWorkSpaceData(searchFromQuery).then((workspaces) => {
-      console.log('RRRR', workspaces);
+    getWorkSpaceData('').then((response) => {
       setIsLoading(false);
       setLocation({
-        workspaces,
+        workspaces: response.workspaces,
       });
     });
-  }, [searchFromQuery]);
+  }, []);
 
   return (
     <section style={{ padding: '0 5vw' }}>
@@ -46,11 +44,7 @@ const WorkSpaceList = (props) => {
         {location.workspaces.map((workspace) => {
           return (
             <WeGrid item sm={4} xs={12} spacing={3}>
-              <Workspace
-                className="workspace"
-                workspace={workspace}
-                history={props.history}
-              />
+              <Workspace className="workspace" workspace={workspace} />
             </WeGrid>
           );
         })}

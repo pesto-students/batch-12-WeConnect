@@ -1,17 +1,9 @@
-import axios from 'axios';
-import { baseUrl } from '../constants';
-
-const LoadData = async (query) => {
-  console.log(query);
-  const response = await axios.get(baseUrl + '/api/workspace/' + query);
-  console.log('ssssss');
-  console.log(response);
-  if (response.status < 300) {
-    const { data } = response;
-    return data;
-  }
-  return [];
-};
+const LoadData = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('dataIsHere');
+    }, 1000);
+  });
 
 const sampleLocation = {
   status: 'success',
@@ -200,12 +192,11 @@ const sampleLocation = {
   ],
 };
 
-const getWorkSpaceData = async (query) => {
-  const { workspaces } = await LoadData(query);
-  if (workspaces.length > 0) {
-    return workspaces;
+const getWorkSpaceData = async (url) => {
+  const data = await LoadData();
+  if (data === 'dataIsHere') {
+    return sampleLocation;
   }
-  return [];
 };
 
 export { getWorkSpaceData, sampleLocation };
