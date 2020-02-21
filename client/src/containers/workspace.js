@@ -15,7 +15,7 @@ const Workspace = (props) => {
   const listOfAmenities = amenities.map((amenity) => {
     return <p>{amenity}</p>;
   });
-
+  
   const showRooms = (e) => {
     props.history.push(
       `/room/${props.workspace.locationId}/${props.workspace._id}/rooms`,

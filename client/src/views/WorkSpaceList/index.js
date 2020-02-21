@@ -44,7 +44,11 @@ const WorkSpaceList = (props) => {
         {location.workspaces.map((workspace) => {
           return (
             <WeGrid item sm={4} xs={12} spacing={3}>
-              <Workspace className="workspace" workspace={workspace} />
+              <Workspace
+                className="workspace"
+                workspace={workspace}
+                history={props.history}
+              />
             </WeGrid>
           );
         })}

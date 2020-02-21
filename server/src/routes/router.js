@@ -16,7 +16,7 @@ router.use(routes.USER, users);
 router.use(routes.WORKSPACE, workspace);
 // Access booking api's
 router.use(routes.BOOKINGS, bookings);
-
+// Access Rooms api's
 router.use(routes.ROOM, room);
 
 export default router;
