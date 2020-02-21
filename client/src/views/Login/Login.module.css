@@ -1,0 +1,89 @@
+.rootContainer {
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 10vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr auto;
+  grid-template-areas:
+    'logo'
+    'form';
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  grid-area: logo;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+  height: auto;
+}
+
+.mainView {
+  grid-area: form;
+}
+
+.mainView > *,
+.mainView > a > * {
+  margin: 0.5em 0;
+}
+
+.form > * {
+  margin: 0.5em 0;
+}
+
+.thirdpartyLogin {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+@media only screen and (min-width: 512px) {
+  .logo {
+    max-width: 40%;
+    padding: 1em;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .rootContainer {
+    width: 50%;
+    padding-top: 2em;
+  }
+
+  .logo {
+    max-width: 25%;
+    padding: 1em;
+  }
+
+  .mainView {
+    zoom: 1.25;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rootContainer button {
+    border: 1px solid #009688;
+    color: #009688;
+  }
+
+  .rootContainer button:hover {
+    background-color: #009688;
+    color: #fff;
+  }
+
+  .rootContainer .icon {
+    border: 0;
+    background-color: inherit;
+    color: inherit;
+  }
+
+  .thirdpartyLogin {
+    justify-content: space-evenly;
+  }
+}
