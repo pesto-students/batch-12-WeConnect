@@ -3,6 +3,7 @@ import index from './index';
 import users from './users';
 import workspace from './workspace';
 import bookings from './bookings';
+import room from './room';
 import routes from '../constants/routes';
 
 const router = express.Router();
@@ -15,5 +16,7 @@ router.use(routes.USER, users);
 router.use(routes.WORKSPACE, workspace);
 // Access booking api's
 router.use(routes.BOOKINGS, bookings);
+
+router.use(routes.ROOM, room);
 
 export default router;
