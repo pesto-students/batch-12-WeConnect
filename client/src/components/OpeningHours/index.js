@@ -10,9 +10,10 @@ const DaysRow = (props) => {
   return (
     <Grid container justify="space-evenly">
       {days.map((day, index) => {
+        const openingHours = operationHours[index] || 'closed';
         return (
-          <Grid item xs={1}>
-            <PopOver day={day} timings={operationHours[index] || 'closed'} />
+          <Grid key={props.workspaceId + day + openingHours} item xs={1}>
+            <PopOver day={day} timings={openingHours} />
           </Grid>
         );
       })}

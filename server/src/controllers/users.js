@@ -9,7 +9,6 @@ exports.register = async (req, res) => {
     res.status(201).send({ user });
   } catch (error) {
     // eslint-disable-next-line
-    console.log(error);
     res.status(400).send(error);
   }
 };

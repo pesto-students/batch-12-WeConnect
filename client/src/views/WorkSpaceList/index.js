@@ -10,44 +10,73 @@ import LinearProgress from '../../components/Generic/ProgressBar/LinearProgress'
 const WorkSpaceList = (props) => {
   const { search } = props.location;
   const searchFromQuery = keyValueGetter(search, 'q');
+  const [searchText, setSearchText] = React.useState('');
+
   const [location, setLocation] = React.useState({ workspaces: [] });
   const [checkMe, setCheckMe] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
-    getWorkSpaceData('').then((response) => {
+    setSearchText(searchFromQuery);
+    getWorkSpaceData(searchFromQuery).then((workspaces) => {
       setIsLoading(false);
       setLocation({
-        workspaces: response.workspaces,
+        workspaces,
       });
     });
-  }, []);
+  }, [searchFromQuery]);
+
+  const updateSearch = () => {
+    props.history.push(`/workspace?q=${searchText}`);
+  };
 
   return (
     <section style={{ padding: '0 5vw' }}>
-      <Filter filterFor="Location" valueOfSearch={searchFromQuery}>
+      <Filter
+        filterFor="Location"
+        valueOfSearch={{ searchText, setSearchText }}
+        updateSearch={updateSearch}
+      >
         <FilterCheckBox
           value="Parking"
-          checked={{ check: checkMe, setCheck: setCheckMe }}
+          key="Parking"
+          isChecked={{ check: checkMe, setCheck: setCheckMe }}
         />
         <FilterCheckBox
           value="Chai"
-          checked={{ check: checkMe, setCheck: setCheckMe }}
+          key="Chai"
+          isChecked={{ check: checkMe, setCheck: setCheckMe }}
         />
         <FilterCheckBox
           value="Coffee"
-          checked={{ check: checkMe, setCheck: setCheckMe }}
+          key="Coffee"
+          isChecked={{ check: checkMe, setCheck: setCheckMe }}
         />
       </Filter>
       <WeGrid id="workspaces-view" container spacing={6}>
-        {isLoading ? <LinearProgress /> : ''}
-        {location.workspaces.map((workspace) => {
-          return (
-            <WeGrid item sm={4} xs={12} spacing={3}>
-              <Workspace className="workspace" workspace={workspace} />
-            </WeGrid>
-          );
-        })}
+        {isLoading ? (
+          <LinearProgress />
+        ) : (
+          location.workspaces.map((workspace) => {
+            return (
+              <WeGrid key={workspace._id} item sm={4} xs={12}>
+                <Workspace
+                  key={workspace._id}
+                  className="workspace"
+                  workspace={workspace}
+                  history={props.history}
+                />
+              </WeGrid>
+            );
+          })
+        )}
+        {!isLoading && location.workspaces.length === 0 ? (
+          <WeGrid item xs={12} style={{ textAlign: 'center', fontSize: 20 }}>
+            No Workspace At This Location
+          </WeGrid>
+        ) : (
+          ''
+        )}
       </WeGrid>
     </section>
   );

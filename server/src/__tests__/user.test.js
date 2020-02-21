@@ -72,7 +72,7 @@ describe("Testing the user api's", () => {
       expect(res.statusCode).toEqual(400);
     });
 
-    test('Test with invalid password input', async () => {
+    test('Test with Valid password input', async () => {
       const res = await request(app)
         .post('/api/users/login')
         .send({

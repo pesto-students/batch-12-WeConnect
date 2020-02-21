@@ -1,6 +1,7 @@
 import Logger from '../logger';
 import Location from '../models/location';
 import Workspace from '../models/workspace';
+import User from '../models/user';
 
 const logger = Logger('controller > workspace');
 
@@ -35,6 +36,17 @@ exports.addWorkspaceImages = async (request, response, next) => {
   logger.info('Adding Images for the workspace');
   const locationId = request.params.locationid;
   const workspaceId = request.params.workspaceid;
+
+  const owner = User.getOwner(request);
+  if (owner == null) {
+    logger.info('The logged in user is not an owner...');
+    response.status(401).json({
+      status: 'failure',
+      message: 'You are not an Owner. Please register as owner.',
+    });
+    return next();
+  }
+  logger.info(`Logged in User is an Owner, Name: ${owner.firstName}`);
 
   try {
     if (locationId == null || workspaceId == null) {
@@ -78,8 +90,16 @@ exports.addWorkspace = async (request, response, next) => {
       workspaceAmenities,
     } = request.body;
 
-    // Place current logged in user's ID --After User Auth merge
-    const user = { _id: '5e4700a5ffcc4113d83a80ff' };
+    const owner = User.getOwner(request);
+    if (owner == null) {
+      logger.info('The logged in user is not an owner...');
+      response.status(401).json({
+        status: 'failure',
+        message: 'You are not an Owner. Please register as owner.',
+      });
+      return next();
+    }
+    logger.info(`Logged in User is an Owner, Name: ${owner.firstName}`);
 
     const addressSchema = {
       ...address,
@@ -90,7 +110,7 @@ exports.addWorkspace = async (request, response, next) => {
       address: addressSchema,
       operationHours,
       // eslint-disable-next-line no-underscore-dangle
-      owner: user._id,
+      owner: owner._id,
       workspaceAmenities,
     };
 

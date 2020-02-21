@@ -1,6 +1,7 @@
 import express from 'express';
 import Multer from 'multer';
 import workspaceController from '../controllers/workspace';
+import auth from '../middleware/auth';
 
 const storage = Multer.diskStorage({
   destination: (_, file, callBack) => {
@@ -14,10 +15,11 @@ const storage = Multer.diskStorage({
 const upload = Multer({ storage });
 const router = express.Router();
 
-router.post('/', workspaceController.addWorkspace);
+router.post('/', auth, workspaceController.addWorkspace);
 router.post(
   '/images/:locationid/:workspaceid',
   upload.single('image'),
+  auth,
   workspaceController.addWorkspaceImages,
 );
 

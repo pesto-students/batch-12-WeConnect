@@ -81,6 +81,15 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
+userSchema.statics.getOwner = (request) => {
+  const { user } = request;
+  const userRole = user.role;
+  if (userRole === 2) {
+    return user;
+  }
+  return undefined;
+};
+
 // eslint-disable-next-line
 const User = mongoose.model('User', userSchema);
 

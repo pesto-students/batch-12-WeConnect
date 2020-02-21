@@ -13,7 +13,7 @@ const FilterCheckBox = (props) => {
       <FormControlLabel
         control={
           <Checkbox
-            checked={props.checked.check}
+            checked={Boolean(props.isChecked.check)}
             value="check"
             color="primary"
             onClick={handleCheck}
