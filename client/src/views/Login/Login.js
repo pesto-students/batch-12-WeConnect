@@ -42,13 +42,13 @@ const StyledButton = withStyles({
 })(Button);
 
 const LoginView = (props) => {
-  const { register, handleSubmit, errors } = useForm({ mode: 'onChange' });
-  const onSubmit = (data) => console.log(data);
   const { toggleView, ...extraProps } = props;
   const [showPassword, setShowPassword] = React.useState(false);
+  const { register, handleSubmit, errors } = useForm({ mode: 'onChange' });
   const handleClickShowPassword = () => {
     setShowPassword((currentValue) => !currentValue);
   };
+  const onSubmit = (data) => {};
 
   return (
     <React.Fragment>
@@ -58,7 +58,7 @@ const LoginView = (props) => {
         className={style.form}
       >
         <StyledTextField
-          name="Email"
+          name="email"
           label="Email"
           variant="outlined"
           placeholder="Enter email address"
@@ -70,11 +70,11 @@ const LoginView = (props) => {
               message: 'Invalid email address',
             },
           })}
-          error={Boolean(errors.Email)}
-          helperText={errors.Email && errors.Email.message}
+          error={Boolean(errors.email)}
+          helperText={errors.email && errors.email.message}
         />
         <StyledTextField
-          name="Password"
+          name="password"
           label="Password"
           variant="outlined"
           placeholder="Enter Password here"
@@ -82,7 +82,7 @@ const LoginView = (props) => {
           type={showPassword ? 'text' : 'password'}
           inputRef={register({ required: 'Password field is compulsory' })}
           error={Boolean(errors.Password)}
-          helperText={errors.Password && errors.Password.message}
+          helperText={errors.Password && errors.password.message}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -134,9 +134,96 @@ const LoginView = (props) => {
   TODO : Implement SignUp View
 */
 const SignUpView = (props) => {
-  const { toggleView } = props;
+  const { toggleView, ...extraProps } = props;
+  const [showPassword, setShowPassword] = React.useState(false);
+  const { register, handleSubmit, watch, triggerValidation, errors } = useForm({
+    mode: 'onChange',
+  });
+  const watchPassword = watch('password', '');
+  const handleClickShowPassword = () => {
+    setShowPassword((currentValue) => !currentValue);
+  };
+  const onSubmit = (data) => {};
 
-  return <p toggleView={toggleView}>SignUp View</p>;
+  return (
+    <React.Fragment>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        {...extraProps}
+        className={style.form}
+      >
+        <StyledTextField
+          name="email"
+          label="Email"
+          variant="outlined"
+          placeholder="Enter email address here"
+          fullWidth
+          inputRef={register({
+            required: 'Email address is compulsory',
+            pattern: {
+              value: EmailRegex,
+              message: 'Invalid email address',
+            },
+          })}
+          error={Boolean(errors.email)}
+          helperText={errors.email && errors.email.message}
+        />
+        <StyledTextField
+          name="password"
+          label="Password"
+          variant="outlined"
+          placeholder="Enter Password here"
+          fullWidth
+          type={showPassword ? 'text' : 'password'}
+          inputRef={register({ required: 'Password field is compulsory' })}
+          error={Boolean(errors.password)}
+          helperText={errors.password && errors.password.message}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  className={style.icon}
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          onChange={() => {
+            triggerValidation('confirmPassword');
+          }}
+        />
+        <StyledTextField
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          placeholder="Retype your password"
+          fullWidth
+          type="password"
+          inputRef={register({
+            required: 'Retype your password here',
+            validate: {
+              match: (value) =>
+                value === watchPassword ? true : 'Passwords are not matching',
+              message: 'Invalid Password',
+            },
+          })}
+          error={Boolean(errors.confirmPassword)}
+          helperText={errors.confirmPassword && errors.confirmPassword.message}
+        />
+        <StyledButton type="submit" fullWidth>
+          <Typography variant="button">Signup</Typography>
+        </StyledButton>
+      </form>
+      <HyperLink onClick={toggleView}>
+        <Typography variant="subtitle2" align="center">
+          Already have an account ? Login
+        </Typography>
+      </HyperLink>
+    </React.Fragment>
+  );
 };
 
 const Login = (props) => {
