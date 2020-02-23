@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 
@@ -6,14 +6,14 @@ import style from './Navbar.module.css';
 import { Button } from '../Generic';
 import { Menu, MenuItem } from '@material-ui/core';
 import { AccountCircle } from '../icons';
+import AuthContext from '../../store/authContext';
 
 export const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { isLoggedIn } = props;
+  const { userAuthStatus } = useContext(AuthContext);
 
   const toggleDropDown = (event) => {
-    const newAnchorEl =
-      event && event.currentTarget ? event.currentTarget : null;
+    const newAnchorEl = event && event.currentTarget ? event.currentTarget : null;
     setAnchorEl(newAnchorEl);
   };
 
@@ -77,12 +77,12 @@ export const Navbar = (props) => {
         </a>
         <div className={style.childrenComponents}>{props.children}</div>
         <div className={style.profileMenu + ' profileMenu'}>
-          {isLoggedIn ? LoggedInMenu : DefaultMenu}
+          {userAuthStatus ? LoggedInMenu : DefaultMenu}
         </div>
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 Navbar.propTypes = {
   position: PropTypes.string,

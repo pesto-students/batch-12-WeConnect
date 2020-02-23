@@ -1,10 +1,11 @@
 import React from 'react';
 import { Homepage, WorkSpaceList, Login } from '../../views';
 import { Navbar } from '../Navbar/Navbar';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import dotenv from 'dotenv';
 import RoomList from '../../views/RoomList';
 import style from './App.module.css';
+
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <div className={style.App}>
-        <Navbar position="sticky" titleText={websiteTitle} className="Appbar" />
+        <Navbar position="sticky" titleText={websiteTitle} className="Appbar"/>
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route exact path="/login" component={Login} />
