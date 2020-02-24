@@ -3,6 +3,7 @@ import { Homepage, WorkSpaceList, Login } from '../../views';
 import { Navbar } from '../Navbar/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import RoomList from '../../views/RoomList';
+import MyProfile from '../../views/MyProfile';
 import style from './App.module.css';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route path="/workspace" component={WorkSpaceList} />
           <Route path="/room" component={RoomList} />
+          <Route path="/profile" component={MyProfile} />
         </Switch>
       </div>
     </Router>

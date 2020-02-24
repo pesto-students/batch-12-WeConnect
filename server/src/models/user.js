@@ -56,16 +56,12 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-userSchema.methods.generateAuthToken = async function(res) {
+userSchema.methods.generateAuthToken = async function(req, res) {
   // Generate an auth token for the user
   const user = this;
   // eslint-disable-next-line
   const token = jwt.sign({ _id: user._id }, constants.JWT_KEY);
-  return res.cookie('token', token, {
-    expires: new Date(Date.now() + constants.TIMEOUT),
-    secure: false, // set to true if your using https
-    httpOnly: true,
-  });
+  return res.cookie('token', token, { maxAge: 86400000, httpOnly: true });
 };
 
 userSchema.statics.findByCredentials = async (email, password) => {
