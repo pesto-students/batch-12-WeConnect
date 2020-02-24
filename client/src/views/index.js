@@ -1,7 +1,4 @@
-import React from 'react';
+import Homepage from './Homepage';
+import WorkSpaceList from './WorkSpaceList';
 
-function Index() {
-  return <h1>WeConnect</h1>;
-}
-
-export default Index;
+export { Homepage, WorkSpaceList };
