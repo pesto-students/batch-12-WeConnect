@@ -42,9 +42,17 @@ function Room(props) {
       borderRadius: 0,
     },
   })(Slider);
-  // const {operationHours} = props.operationHours;
-  // const [monOpHr, tueOpHr, wedOpHr, thuOpHr, friOpHr, satOpHr, sunOpHr] = operationHours;
-
+  const { operationHours } = props.operationHours;
+  const [
+    monOpHr,
+    tueOpHr,
+    wedOpHr,
+    thuOpHr,
+    friOpHr,
+    satOpHr,
+    sunOpHr,
+  ] = operationHours;
+  console.log(monOpHr, tueOpHr, wedOpHr, thuOpHr, friOpHr, satOpHr, sunOpHr);
   return (
     <RoomCard id={props.rooms._id}>
       {props.rooms.images.length === 0 ? (
