@@ -11,7 +11,7 @@ describe("Testing the user api's", () => {
     lastName: 'test',
     email: 'test@test.com',
     password: 'test@1234',
-    role: 1,
+    role: 2,
     phone: '+1234567890',
   };
 

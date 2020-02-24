@@ -8,7 +8,7 @@ import {
   Link as HyperLink,
   InputAdornment,
   IconButton,
-  Snackbar
+  Snackbar,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '../../components/Generic';
@@ -17,8 +17,6 @@ import { authenticateUser } from '../../apis/auth';
 import { registerUser } from '../../apis/signup';
 import style from './Login.module.css';
 import AuthContext from '../../store/authContext';
-
-
 
 const EmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -63,19 +61,18 @@ const LoginView = (props) => {
     setUserAuthStatus(isValidCredentials);
     if (isValidCredentials) {
       notify({
-        display:true,
-        severity:'success',
-        text:'Your login has been successful'
+        display: true,
+        severity: 'success',
+        text: 'Your login has been successful',
       });
-    }
-    else{
+    } else {
       notify({
         display: true,
         severity: 'error',
-        text: 'Given username/password are invalid'
+        text: 'Given username/password are invalid',
       });
     }
-  }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -161,19 +158,18 @@ const SignUpView = (props) => {
   const handleClickShowPassword = () => {
     setShowPassword((currentValue) => !currentValue);
   };
-  const onSubmit = (data) => { 
-    try{
+  const onSubmit = (data) => {
+    try {
       registerUser(data, notify);
-      window.location.href="/";
-    }
-    catch(error) {
+      window.location.href = '/';
+    } catch (error) {
       notify({
-        display:true,
-        severity:'error',
-        text:'Some error occured. Please retry again'
+        display: true,
+        severity: 'error',
+        text: 'Some error occured. Please retry again',
       });
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -311,18 +307,17 @@ const SignUpView = (props) => {
   );
 };
 
-
 const Login = (props) => {
   const [isRegistered, setisRegistered] = useState(true);
   const [notification, setNotification] = useState({
-    'display': false,
-    'severity': null,
-    'text': ''
+    display: false,
+    severity: null,
+    text: '',
   });
   const history = useHistory();
   const toggleView = () => setisRegistered(!isRegistered);
   const { userAuthStatus } = useContext(AuthContext);
-  
+
   const notify = async (newState) => {
     await setNotification(() => newState);
   };
@@ -338,7 +333,7 @@ const Login = (props) => {
         }}
         open={Boolean(notification.display)}
         autoHideDuration={4000}
-        onClose={() => setNotification({'display': false})}
+        onClose={() => setNotification({ display: false })}
         message={notification.text}
         severity={notification.severity}
       />

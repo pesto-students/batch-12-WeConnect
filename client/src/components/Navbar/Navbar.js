@@ -14,10 +14,10 @@ export const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { userAuthStatus, setUserAuthStatus } = useContext(AuthContext);
   const history = useHistory();
-  
 
   const toggleDropDown = (event) => {
-    const newAnchorEl = event && event.currentTarget ? event.currentTarget : null;
+    const newAnchorEl =
+      event && event.currentTarget ? event.currentTarget : null;
     setAnchorEl(newAnchorEl);
   };
 
@@ -25,19 +25,18 @@ export const Navbar = (props) => {
     setAnchorEl(null);
   };
 
-  const handleProfileClick = () => {  
+  const handleProfileClick = () => {
     closeDropDown();
-    history.push('/profile')
+    history.push('/profile');
   };
 
   const handleLogoutClick = () => {
     const isSuccessful = logoutUser();
     if (isSuccessful) {
       setUserAuthStatus(false);
-    }
-    else {
+    } else {
       setUserAuthStatus(null);
-    }    
+    }
   };
 
   const LoggedInMenu = (
@@ -101,7 +100,7 @@ export const Navbar = (props) => {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 Navbar.propTypes = {
   position: PropTypes.string,

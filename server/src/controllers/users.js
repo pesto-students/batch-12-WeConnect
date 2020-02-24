@@ -25,7 +25,7 @@ exports.login = async (req, res) => {
         .send({ error: 'Login failed! Check authentication credentials' });
     }
 
-    await user.generateAuthToken(res);
+    await user.generateAuthToken(req, res);
 
     res.status(200).send({ user });
   } catch (error) {
