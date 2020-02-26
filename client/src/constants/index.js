@@ -1,3 +1,7 @@
-const serverUrl = process.env.REACT_APP_SERVER_URL;
+const baseUrl = process.env.REACT_APP_SERVER_URL;
+const apiUrl = process.env.REACT_APP_API_URL
 
-export default serverUrl;
+export {
+  baseUrl,
+  apiUrl
+};

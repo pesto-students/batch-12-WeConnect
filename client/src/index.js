@@ -9,6 +9,7 @@ import theme from './components/Theme/theme';
 import { axiosHOC } from './apis/axios_hoc';
 import AuthContext from './store/authContext';
 import { updateUserAuthStatus } from './apis/auth';
+
 dotenv.config();
 
 const AppHOC = axiosHOC(App);
@@ -32,13 +33,12 @@ const AppWrapper = () => {
         newState = false;
         break;
       case null:
-        updateUserAuthStatus();
+        newState = updateUserAuthStatus();
         break;
       default:
         newState = false;
     }
     if (userAuthStatus !== newState) {
-      console.log(`Updating Status from ${userAuthStatus} to ${newState}`);
       setUserAuthStatus(newState);
     }
     

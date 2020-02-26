@@ -1,5 +1,5 @@
 import axios from 'axios';
-import apiUrl from '../constants';
+import {apiUrl} from '../constants';
 
 const auth_urls = {
   LOGIN_URL: `${apiUrl}/api/users/login`,

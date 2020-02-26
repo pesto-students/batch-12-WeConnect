@@ -4,8 +4,6 @@ import { Navbar } from '../Navbar/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import RoomList from '../../views/RoomList';
 import style from './App.module.css';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const App = () => {
   const websiteTitle = 'WeConnect';
