@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {Redirect} from 'react-router-dom';
 import {
@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button } from '../../components/Generic';
 import { Visibility, VisibilityOff } from '../../components/icons';
 import { authenticateUser } from '../../apis/auth';
+import { registerUser } from '../../apis/signup';
 import style from './Login.module.css';
 import AuthContext from '../../store/authContext';
 
@@ -74,6 +75,10 @@ const LoginView = (props) => {
       });
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
 
   return (
@@ -148,11 +153,28 @@ const SignUpView = (props) => {
   const { register, handleSubmit, watch, triggerValidation, errors } = useForm({
     mode: 'onChange',
   });
+  const userRoleOptions = [
+    { label: 'Customer', value: '1' },
+    { label: 'Owner', value: '2' },
+  ];
   const watchPassword = watch('password', '');
   const handleClickShowPassword = () => {
     setShowPassword((currentValue) => !currentValue);
   };
-  const onSubmit = (data) => {};
+  
+  const onSubmit = (data) => { 
+    try{
+      registerUser(data, notify);
+      window.location.href="/";
+    }
+    catch(error) {
+      notify({
+        display:true,
+        severity:'error',
+        text:'Some error occured. Please retry again'
+      });
+    }
+  }
 
   return (
     <React.Fragment>
@@ -161,6 +183,26 @@ const SignUpView = (props) => {
         {...extraProps}
         className={style.form}
       >
+        <StyledTextField
+          name="firstName"
+          label="First name"
+          variant="outlined"
+          placeholder="First name"
+          fullWidth
+          inputRef={register({
+            required: 'First name is required',
+          })}
+          error={Boolean(errors.firstName)}
+          helperText={errors.firstName && errors.firstName.message}
+        />
+        <StyledTextField
+          name="lastName"
+          label="Last Name"
+          variant="outlined"
+          placeholder="Last name"
+          fullWidth
+          inputRef={register({})}
+        />
         <StyledTextField
           name="email"
           label="Email"
@@ -222,15 +264,50 @@ const SignUpView = (props) => {
           error={Boolean(errors.confirmPassword)}
           helperText={errors.confirmPassword && errors.confirmPassword.message}
         />
+        <StyledTextField
+          name="phone"
+          label="Contact Number"
+          variant="outlined"
+          placeholder="Enter contact number"
+          fullWidth
+          type="tel"
+          inputRef={register({
+            required: 'Contact number is missing',
+          })}
+        ></StyledTextField>
+
+        <StyledTextField
+          name="role"
+          label="Role"
+          select
+          variant="outlined"
+          placeholder="Select your role"
+          fullWidth
+          inputRef={register({
+            required: 'Select a role from existing ones.',
+          })}
+          SelectProps={{
+            native: true,
+          }}
+          error={Boolean(errors.userRole)}
+          helperText={errors.userRole && errors.userRole.message}
+        >
+          {userRoleOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </StyledTextField>
         <StyledButton type="submit" fullWidth>
           <Typography variant="button">Signup</Typography>
         </StyledButton>
       </form>
       <HyperLink onClick={toggleView}>
         <Typography variant="subtitle2" align="center">
-          Already have an account ? Login
+          Already have an account ?
         </Typography>
       </HyperLink>
+      <div className={style.spacer} />
     </React.Fragment>
   );
 };
@@ -249,6 +326,8 @@ const Login = (props) => {
   if (userAuthStatus) {
     return <Redirect to="/" />;
   }
+
+    
   return (
     <section className={style.rootContainer}>
       <Snackbar
