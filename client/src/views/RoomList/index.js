@@ -13,6 +13,7 @@ const RoomList = (props) => {
   const [date, setDate] = useState(new moment().format('YYYY-MM-DD'));
 
   useEffect(() => {
+    console.log(props.location.state);
     getRoomData(props.location.pathname).then((floorsData) => {
       console.log(floorsData);
       setIsLoading(false);
@@ -61,13 +62,14 @@ const RoomList = (props) => {
                         operationHours={
                           props.history.location.state.operationHours
                         }
+                        date={date}
                         floorId={eachFloor._id}
                         floorName={eachFloor.name}
-                        //                 ownerId: workspace.owner,
-                        // locationName: workspace.locationName,
-                        // locationId:workspace.locationId,
-                        // workspaceName: workspace.name,
-                        // workspaceId: workspace._id
+                        ownerId={props.location.state.ownerId}
+                        locationName={props.location.state.locationName}
+                        locationId={props.location.state.locationId}
+                        workspaceName={props.location.state.workspaceName}
+                        workspaceId={props.location.state.workspaceId}
                       />
                     </Grid>
                   );

@@ -17,7 +17,7 @@ const MyBookings = (props) => {
       }
       setIsLoading(!isLoading);
     });
-  }, [hasBookings, isLoading]);
+  }, []);
 
   return (
     <div className={ownStyle.mainView}>

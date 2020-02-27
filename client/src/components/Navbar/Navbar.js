@@ -39,6 +39,7 @@ export const Navbar = (props) => {
     const isSuccessful = logoutUser();
     if (isSuccessful) {
       setUserAuthStatus(false);
+      history.push('/');
     } else {
       setUserAuthStatus(null);
     }
