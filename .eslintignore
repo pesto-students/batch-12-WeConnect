@@ -1,7 +1,8 @@
-/build/**
-/coverage/**
-/docs/**
-/jsdoc/**
-/tmp/**
+**/build/**
+**/coverage/**
+**/dist/**
+**/docs/**
+**/jsdoc/**
+**/tmp/**
 **/__tests__/**
 **/node_modules/**
