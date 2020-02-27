@@ -13,10 +13,6 @@ router.post(routes.CANCEL, [auth, isCustomer], bookingController.cancel);
 
 router.get(routes.MYBOOKINGS, auth, bookingController.myBookings);
 
-router.post(
-  routes.BOOKEDSLOTS,
-  [auth, isCustomer],
-  bookingController.bookedSlots,
-);
+router.post(routes.BOOKEDSLOTS, bookingController.bookedSlots);
 
 export default router;

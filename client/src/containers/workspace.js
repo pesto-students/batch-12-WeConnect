@@ -17,10 +17,16 @@ const Workspace = (props) => {
   });
 
   const showRooms = (e) => {
-    console.log(props);
     props.history.push(
       `/room/${props.workspace.locationId}/${props.workspace._id}/rooms`,
-      { operationHours: workspace.operationHours },
+      {
+        operationHours: workspace.operationHours,
+        ownerId: workspace.owner,
+        locationName: workspace.locationName,
+        locationId: workspace.locationId,
+        workspaceName: workspace.name,
+        workspaceId: workspace._id,
+      },
     );
   };
 

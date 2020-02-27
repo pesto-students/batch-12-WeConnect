@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { RoomCard, RoomContent } from '../components/RoomCard';
 import { Carousel, Button } from '../components/Generic';
@@ -7,6 +7,7 @@ import Slider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core/styles';
 
 function Room(props) {
+  const [timeSlot, setTimeSlot] = useState([0, 90]);
   const WeSlider = withStyles({
     root: {
       color: '#ccc',
@@ -32,6 +33,10 @@ function Room(props) {
     valueLabel: {
       left: 'calc(-50% + 4px)',
     },
+    markLabel: {
+      top: 38,
+      fontSize: '10px',
+    },
     track: {
       color: '#009688',
       height: 24,
@@ -42,8 +47,60 @@ function Room(props) {
       borderRadius: 0,
     },
   })(Slider);
-  // const {operationHours} = props.operationHours;
-  // const [monOpHr, tueOpHr, wedOpHr, thuOpHr, friOpHr, satOpHr, sunOpHr] = operationHours;
+
+  const marks = [];
+
+  const { operationHours } = props;
+
+  const getTodayOpHr = (operationHours) => {
+    let curDay = (props.day + 6) % 7;
+    return operationHours[curDay];
+  };
+
+  const todayOperationHour = getTodayOpHr(operationHours);
+
+  const updateTimeSlot = (e, newValue) => {
+    setTimeSlot(newValue);
+  };
+
+  const generateMarks = (operationHours) => {
+    let [startTime, endTime] = operationHours
+      .split('-')
+      .map((eachWord) => eachWord.trim());
+    marks.push({ value: 0, label: startTime });
+    let startVal = 0;
+    while (startTime !== endTime) {
+      let [hourStart, minuteStart] = startTime.split(':');
+      minuteStart = parseInt(minuteStart, 10);
+      hourStart = parseInt(hourStart, 10);
+      if (minuteStart === 0) {
+        minuteStart = 30;
+        hourStart =
+          hourStart < 10 ? ('0' + hourStart).slice(-2) : String(hourStart);
+        minuteStart = String(minuteStart);
+      } else {
+        hourStart = hourStart + 1;
+        minuteStart = '00';
+        hourStart =
+          hourStart < 10 ? ('0' + hourStart).slice(-2) : String(hourStart);
+      }
+      startTime = hourStart + ':' + minuteStart;
+
+      startVal += 30;
+      if (timeSlot.includes(startVal)) {
+        marks.push({
+          value: startVal,
+          label: startTime,
+        });
+      } else {
+        marks.push({
+          value: startVal,
+        });
+      }
+    }
+  };
+
+  generateMarks(todayOperationHour);
 
   return (
     <RoomCard id={props.rooms._id}>
@@ -71,13 +128,14 @@ function Room(props) {
         })}
       </Amenities>
       <WeSlider
-        defaultValue={[10, 20]}
-        aria-labelledby="discrete-slider"
-        valueLabelDisplay="on"
-        step={10}
-        marks
-        min={10}
-        max={110}
+        value={timeSlot}
+        aria-labelledby="meeting-room"
+        valueLabelDisplay="auto"
+        step={30}
+        marks={marks}
+        min={0}
+        max={marks[marks.length - 1].value}
+        onChange={updateTimeSlot}
       />
       <Button color="primary" variant="contained" fullWidth={true}>
         Book Room
