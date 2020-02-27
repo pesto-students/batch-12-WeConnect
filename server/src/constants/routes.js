@@ -15,4 +15,5 @@ export default {
   MYBOOKINGS: '/mybookings',
   BOOKEDSLOTS: '/bookedslots',
   ROOM: '/room',
+  UPDATE: '/me/update',
 };

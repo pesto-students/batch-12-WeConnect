@@ -11,6 +11,9 @@ router.post(routes.REGISTER, userController.register);
 // login user
 router.post(routes.LOGIN, userController.login);
 
+// update user
+router.post(routes.UPDATE, auth, userController.update);
+
 // get user profile
 router.get(routes.PROFILE, auth, userController.profile);
 

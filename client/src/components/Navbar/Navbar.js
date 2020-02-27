@@ -30,6 +30,11 @@ export const Navbar = (props) => {
     history.push('/profile');
   };
 
+  const handleBookingsClick = () => {
+    closeDropDown();
+    history.push('/bookings');
+  };
+
   const handleLogoutClick = () => {
     const isSuccessful = logoutUser();
     if (isSuccessful) {
@@ -63,6 +68,9 @@ export const Navbar = (props) => {
         >
           <MenuItem className={style.menuButton} onClick={handleProfileClick}>
             Profile
+          </MenuItem>
+          <MenuItem className={style.menuButton} onClick={handleBookingsClick}>
+            Bookings
           </MenuItem>
           <MenuItem className={style.menuButton} onClick={handleLogoutClick}>
             Logout

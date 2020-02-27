@@ -7,12 +7,12 @@ const auth_urls = {
   LOGOUT_URL: `${apiUrl}/api/users/logout`,
 };
 
-const verifyUserAuthStatus = () => {
+const verifyUserAuthStatus = async () => {
   let newState = null;
   try {
-    const response = axios
-      .get(auth_urls.USER_PROFILE_URL)
-      .then((response) => response);
+    const response = await axios.get(auth_urls.USER_PROFILE_URL, {
+      withCredentials: true,
+    });
     newState = Boolean(response.status === 200);
   } catch {
     newState = false;
@@ -35,7 +35,13 @@ const authenticateUser = async (credentials) => {
 
 const logoutUser = async () => {
   try {
-    const response = await axios.post(auth_urls.LOGOUT_URL, {});
+    const response = await axios.post(
+      auth_urls.LOGOUT_URL,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
     return Boolean(response.status === 200);
   } catch (error) {
     return false;

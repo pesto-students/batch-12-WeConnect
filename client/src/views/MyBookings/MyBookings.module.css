@@ -1,11 +1,15 @@
-.textField {
-  padding: 10px;
-}
-
 .loader {
   text-align: center;
   width: 5em;
   position: absolute;
   top: 40%;
   left: 50%;
+}
+
+.noBookings {
+  text-align: center;
+}
+
+.mainView {
+  margin: 20px;
 }
