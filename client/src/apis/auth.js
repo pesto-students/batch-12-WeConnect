@@ -4,7 +4,7 @@ import { apiUrl } from '../constants';
 const auth_urls = {
   LOGIN_URL: `${apiUrl}/api/users/login`,
   USER_PROFILE_URL: `${apiUrl}/api/users/me`,
-  LOGOUT_URL: `${apiUrl}/api/users/logout`,
+  LOGOUT_URL: `${apiUrl}/api/users/me/logout`,
 };
 
 const verifyUserAuthStatus = async () => {

@@ -13,22 +13,21 @@ dotenv.config();
 
 const AppHOC = axiosHOC(App);
 
-
 const AppWrapper = () => {
   const [userAuthStatus, _setUserAuthStatus] = useState(null);
   const setUserAuthStatus = (status) => {
     sessionStorage.setItem('userAuthStatus', status);
-    _setUserAuthStatus(status)
-  }
+    _setUserAuthStatus(status);
+  };
 
   if (userAuthStatus === null) {
     const status = sessionStorage.getItem('userAuthStatus');
     let newState = null;
-    switch(status) {
-      case "true":
+    switch (status) {
+      case 'true':
         newState = true;
         break;
-      case "false":
+      case 'false':
         newState = false;
         break;
       case null:
@@ -40,23 +39,17 @@ const AppWrapper = () => {
     if (userAuthStatus !== newState) {
       setUserAuthStatus(newState);
     }
-    
   }
 
-  return ( 
+  return (
     <MuiThemeProvider theme={theme}>
       <StylesProvider injectFirst>
-        <AuthContext.Provider value={{userAuthStatus, setUserAuthStatus} }>
+        <AuthContext.Provider value={{ userAuthStatus, setUserAuthStatus }}>
           <AppHOC />
         </AuthContext.Provider>
-        </StylesProvider>
-      </MuiThemeProvider>
+      </StylesProvider>
+    </MuiThemeProvider>
   );
-}
+};
 
-
-ReactDOM.render(
-  <AppWrapper />,
-  document.getElementById('root'),
-);
-
+ReactDOM.render(<AppWrapper />, document.getElementById('root'));

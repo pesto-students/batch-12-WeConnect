@@ -4,6 +4,8 @@ import Booking from '../models/booking';
 exports.create = async (req, res) => {
   // Create new booking
   try {
+    req.body.userId = req.user.id;
+    console.log(req.body);
     const booking = new Booking(req.body);
     await booking.save();
     res.status(201).send(booking);

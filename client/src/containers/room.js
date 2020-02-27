@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-
+import { apiUrl } from '../constants';
 import { RoomCard, RoomContent } from '../components/RoomCard';
 import { Carousel, Button } from '../components/Generic';
 import Amenities from '../components/Amenities/Amenities';
 import Slider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function Room(props) {
   const [timeSlot, setTimeSlot] = useState([0, 90]);
@@ -49,7 +52,7 @@ function Room(props) {
   })(Slider);
 
   const marks = [];
-
+  const history = useHistory();
   const { operationHours } = props;
 
   const getTodayOpHr = (operationHours) => {
@@ -102,6 +105,41 @@ function Room(props) {
 
   generateMarks(todayOperationHour);
 
+  const bookRoom = async () => {
+    console.log(marks);
+    console.log('timeslotselected', timeSlot);
+    const [startVal, endVal] = timeSlot;
+    const startTimeVal = marks.filter(
+      (eachslot) => eachslot.value === startVal,
+    );
+    const endTimeVal = marks.filter((eachslot) => eachslot.value === endVal);
+    const startTime = startTimeVal[0].label;
+    const endTime = endTimeVal[0].label;
+    console.log(startTime, endTime);
+    const meetingStartTime = moment(props.date + ' ' + startTime).format();
+    const meetingEndTime = moment(props.date + ' ' + endTime).format();
+    console.log(meetingStartTime, meetingEndTime);
+    const body = {
+      floorId: props.floorId,
+      floorName: props.floorName,
+      locationId: props.locationId,
+      locationName: props.locationName,
+      owner: props.ownerId,
+      locationName: props.locationName,
+      locationId: props.locationId,
+      workspaceName: props.workspaceName,
+      workspaceId: props.workspaceId,
+      meetingStartTime: meetingStartTime,
+      meetingEndTime: meetingEndTime,
+      roomId: props.rooms._id,
+      roomName: props.rooms.name,
+    };
+    await axios.post(apiUrl + '/api/bookings/create', body, {
+      withCredentials: true,
+    });
+    history.push('/bookings');
+  };
+
   return (
     <RoomCard id={props.rooms._id}>
       {props.rooms.images.length === 0 ? (
@@ -137,7 +175,12 @@ function Room(props) {
         max={marks[marks.length - 1].value}
         onChange={updateTimeSlot}
       />
-      <Button color="primary" variant="contained" fullWidth={true}>
+      <Button
+        color="primary"
+        variant="contained"
+        fullWidth={true}
+        onClick={bookRoom}
+      >
         Book Room
       </Button>
     </RoomCard>
