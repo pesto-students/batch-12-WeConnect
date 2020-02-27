@@ -42,8 +42,8 @@ function Room(props) {
       borderRadius: 0,
     },
   })(Slider);
-  // const {operationHours} = props.operationHours;
-  // const [monOpHr, tueOpHr, wedOpHr, thuOpHr, friOpHr, satOpHr, sunOpHr] = operationHours;
+  const {operationHours} = props.operationHours;
+  const [monOpHr, tueOpHr, wedOpHr, thuOpHr, friOpHr, satOpHr, sunOpHr] = operationHours;
 
   return (
     <RoomCard id={props.rooms._id}>
