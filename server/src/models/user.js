@@ -79,9 +79,11 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 userSchema.statics.getOwner = (request) => {
   const { user } = request;
-  const userRole = user.role;
-  if (userRole === 2) {
-    return user;
+  if (user != null) {
+    const userRole = user.role;
+    if (userRole === 2) {
+      return user;
+    }
   }
   return undefined;
 };

@@ -32,6 +32,44 @@ exports.getWorkspaces = async (request, response, next) => {
   return next();
 };
 
+exports.getWorkspacesOfOwner = async (request, response, next) => {
+  try {
+    logger.info('Verifying loggedIn Person is owner or not...');
+    const owner = User.getOwner(request);
+    if (owner == null) {
+      logger.info('The logged in user is not an owner...');
+      response.status(401).json({
+        status: 'failure',
+        message: 'You are not an Owner. Please register as owner.',
+      });
+      return next();
+    }
+    logger.info(`Searching owners workspace in DB.... for Id :${owner._id}`);
+
+    const workspace = await Location.findOne({
+      workspaces: { $elemMatch: { owner: owner._id } },
+    });
+
+    const workspaceObj = workspace.toObject();
+    if (workspaceObj != null) {
+      logger.info('Workspace present for this owner...');
+      response.status(200).json({
+        status: 'success',
+        workspace: workspaceObj,
+      });
+    } else {
+      logger.info('Workspace absent for this owner...');
+      response.status(404).json({
+        status: 'failure',
+        workspace: {},
+      });
+    }
+  } catch (error) {
+    logger.error(error.toString());
+  }
+  return next();
+};
+
 exports.addWorkspaceImages = async (request, response, next) => {
   logger.info('Adding Images for the workspace');
   const locationId = request.params.locationid;

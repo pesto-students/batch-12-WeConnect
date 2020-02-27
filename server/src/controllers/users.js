@@ -38,10 +38,16 @@ exports.profile = async (req, res) => {
   res.send({ user: req.user });
 };
 
+exports.update = async (req, res) => {
+  const response = await User.updateOne({ _id: req.user._id }, req.body);
+  // View logged in user profile
+  res.send(response);
+};
+
 exports.logout = async (req, res) => {
   // Log user out of the application
   try {
-    res.cookie('token', '', { maxAge: 0, httpOnly: true });
+    res.clearCookie('token', { domain: req.headers.host });
     res.status(200).send('User logged out successfully.');
   } catch (error) {
     res.status(500).send(error);

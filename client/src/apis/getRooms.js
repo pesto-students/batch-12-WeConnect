@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {apiUrl} from '../constants';
+import { apiUrl } from '../constants';
 
 const LoadData = async (location) => {
   const response = await axios.get(`${apiUrl}/api${location}`);

@@ -15,6 +15,8 @@ const storage = Multer.diskStorage({
 const upload = Multer({ storage });
 const router = express.Router();
 
+router.get('/owner/', auth, workspaceController.getWorkspacesOfOwner);
+
 router.post('/', auth, workspaceController.addWorkspace);
 router.post(
   '/images/:locationid/:workspaceid',
@@ -27,6 +29,6 @@ router.put('/:locationid/:workspaceid', workspaceController.updateWorkspace);
 
 router.delete('/:locationid/:workspaceid', workspaceController.deleteWorkspace);
 
-router.get('/:qLocation/:page?/:count?', workspaceController.getWorkspaces);
+router.get('/q/:qLocation/:page?/:count?', workspaceController.getWorkspaces);
 
 export default router;

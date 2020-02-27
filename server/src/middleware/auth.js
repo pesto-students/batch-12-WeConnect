@@ -5,7 +5,6 @@ import constants from '../constants/token';
 const auth = async (req, res, next) => {
   try {
     if (req.headers.cookie) {
-      //console.log('******COOKIE********', req.headers.cookie);
       const cookieArray = req.headers.cookie
         .split(';')
         .filter((cookie) => cookie.indexOf('token') !== -1);
@@ -23,10 +22,10 @@ const auth = async (req, res, next) => {
             throw new Error();
           }
           req.user = user;
-          next();
         }
       }
     }
+    next();
   } catch (error) {
     res.status(401).send({ error: 'Not authorized to access this resource' });
   }
