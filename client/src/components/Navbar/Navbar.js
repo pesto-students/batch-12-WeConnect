@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 
@@ -7,10 +7,14 @@ import { Button } from '../Generic';
 import { Menu, MenuItem } from '@material-ui/core';
 import { AccountCircle } from '../icons';
 import AuthContext from '../../store/authContext';
+import { useHistory } from 'react-router-dom';
+import { logoutUser } from '../../apis/auth';
 
 export const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { userAuthStatus } = useContext(AuthContext);
+  const { userAuthStatus, setUserAuthStatus } = useContext(AuthContext);
+  const history = useHistory();
+  
 
   const toggleDropDown = (event) => {
     const newAnchorEl = event && event.currentTarget ? event.currentTarget : null;
@@ -19,6 +23,21 @@ export const Navbar = (props) => {
 
   const closeDropDown = () => {
     setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {  
+    closeDropDown();
+    history.push('/profile')
+  };
+
+  const handleLogoutClick = () => {
+    const isSuccessful = logoutUser();
+    if (isSuccessful) {
+      setUserAuthStatus(false);
+    }
+    else {
+      setUserAuthStatus(null);
+    }    
   };
 
   const LoggedInMenu = (
@@ -43,10 +62,10 @@ export const Navbar = (props) => {
           }}
           getContentAnchorEl={null}
         >
-          <MenuItem className={style.menuButton} onClick={closeDropDown}>
+          <MenuItem className={style.menuButton} onClick={handleProfileClick}>
             Profile
           </MenuItem>
-          <MenuItem className={style.menuButton} onClick={closeDropDown}>
+          <MenuItem className={style.menuButton} onClick={handleLogoutClick}>
             Logout
           </MenuItem>
         </Menu>

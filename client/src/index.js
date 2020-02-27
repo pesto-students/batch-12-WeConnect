@@ -8,8 +8,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 import theme from './components/Theme/theme';
 import { axiosHOC } from './apis/axios_hoc';
 import AuthContext from './store/authContext';
-import { updateUserAuthStatus } from './apis/auth';
-
+import { verifyUserAuthStatus } from './apis/auth';
 dotenv.config();
 
 const AppHOC = axiosHOC(App);
@@ -33,7 +32,7 @@ const AppWrapper = () => {
         newState = false;
         break;
       case null:
-        newState = updateUserAuthStatus();
+        verifyUserAuthStatus();
         break;
       default:
         newState = false;
