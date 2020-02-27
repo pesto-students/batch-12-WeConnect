@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {Redirect} from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+
 import {
   Typography,
   TextField,
@@ -79,7 +80,6 @@ const LoginView = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   return (
     <React.Fragment>
@@ -161,7 +161,6 @@ const SignUpView = (props) => {
   const handleClickShowPassword = () => {
     setShowPassword((currentValue) => !currentValue);
   };
-  
   const onSubmit = (data) => { 
     try{
       registerUser(data, notify);
@@ -320,14 +319,16 @@ const Login = (props) => {
     'severity': null,
     'text': ''
   });
+  const history = useHistory();
   const toggleView = () => setisRegistered(!isRegistered);
   const { userAuthStatus } = useContext(AuthContext);
   
+  const notify = async (newState) => {
+    await setNotification(() => newState);
+  };
   if (userAuthStatus) {
-    return <Redirect to="/" />;
+    setTimeout(() => history.push('/'), 1000);
   }
-
-    
   return (
     <section className={style.rootContainer}>
       <Snackbar
@@ -350,9 +351,9 @@ const Login = (props) => {
       </a>
       <div className={style.mainView}>
         {isRegistered ? (
-          <LoginView toggleView={toggleView} notify={setNotification} />
+          <LoginView toggleView={toggleView} notify={notify} />
         ) : (
-          <SignUpView toggleView={toggleView} notify={setNotification} />
+          <SignUpView toggleView={toggleView} notify={notify} />
         )}
       </div>
     </section>

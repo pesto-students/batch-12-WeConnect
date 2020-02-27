@@ -1,33 +1,46 @@
 import axios from 'axios';
-import {apiUrl} from '../constants';
+import { apiUrl } from '../constants';
 
 const auth_urls = {
   LOGIN_URL: `${apiUrl}/api/users/login`,
   USER_PROFILE_URL: `${apiUrl}/api/users/me`,
+  LOGOUT_URL: `${apiUrl}/api/users/logout`
 };
 
-const updateUserAuthStatus = () => {
-  let updatedState = null;
+const verifyUserAuthStatus = () => {
+  let newState = null;
   try {
-    const response = axios
-      .get(auth_urls.USER_PROFILE_URL)
-      .then((response) => response);
-    updatedState = Boolean(response.status === 200);
-  } catch {
-    updatedState = false;
+    const response = axios.get(auth_urls.USER_PROFILE_URL).then((response) => response);
+    newState = Boolean(response.status === 200);
   }
-  return updatedState;
-};
+  catch {
+    newState = false;
+  }
+  return newState;
+}
 
 const authenticateUser = async (credentials) => {
-  let updatedState = null;
+  let newState = null;
   try {
     const response = await axios.post(auth_urls.LOGIN_URL, credentials);
-    updatedState = Boolean(response.status === 200);
+    newState = Boolean(response.status === 200);
   } catch (error) {
-    updatedState = false;
+    newState = false;
   }
-  return updatedState;
+  return newState;
 };
 
-export { authenticateUser, updateUserAuthStatus };
+const logoutUser = async () => {
+  try {
+    const response = await axios.post(auth_urls.LOGOUT_URL, {});
+    return Boolean(response.status === 200);
+  } catch (error) {
+    return false;
+  }
+}
+
+export { 
+  authenticateUser,
+  verifyUserAuthStatus,
+  logoutUser
+}
