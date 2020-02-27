@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {baseUrl} from '../constants';
+import {apiUrl} from '../constants';
 
 const LoadData = async (query) => {
-  const response = await axios.get(baseUrl + '/api/workspace/' + query);
+  const response = await axios.get(apiUrl + '/api/workspace/' + query);
   if (response.status < 300) {
     const { data } = response;
     return data;
