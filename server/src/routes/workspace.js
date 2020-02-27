@@ -29,6 +29,6 @@ router.put('/:locationid/:workspaceid', workspaceController.updateWorkspace);
 
 router.delete('/:locationid/:workspaceid', workspaceController.deleteWorkspace);
 
-router.get('/q/:qLocation/:page?/:count?', workspaceController.getWorkspaces);
+router.get('/:qLocation/:page?/:count?', workspaceController.getWorkspaces);
 
 export default router;
